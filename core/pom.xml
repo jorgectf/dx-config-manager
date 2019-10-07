@@ -23,9 +23,9 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>reactor.core</artifactId>
-    <name>cloud - Core</name>
-    <description>Core bundle for cloud</description>
+    <artifactId>core-reactor</artifactId>
+    <name>Cloud Config Manager - Core</name>
+    <description>Core bundle for Cloud Config Manager</description>
     <build>
         <plugins>
             <plugin>
@@ -43,9 +43,10 @@
                         </goals>
                         <configuration>
                             <bnd><![CDATA[
+Bundle-SymbolicName: com.adobe.cloud
 Bundle-Category: cloud
 -exportcontents: ${packages;VERSIONED}
-Sling-Model-Packages: com.adobe.cloud.core.models
+Sling-Model-Packages: com.adobe.cloud
 -snapshot: ${tstamp;yyyyMMddHHmmssSSS}
 Bundle-DocURL:
                                 ]]></bnd>

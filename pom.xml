@@ -22,14 +22,16 @@
     <artifactId>reactor</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>Cloud Config Manager - Reactor</name>
     <description>cloud</description>
 
     <modules>
         <module>core</module>
-        <module>ui.apps</module>
+        <module>app</module>
     </modules>
 
     <properties>
+        <aem.cloud.version>V16168</aem.cloud.version>
         <aem.host>localhost</aem.host>
         <aem.port>4502</aem.port>
         <aem.publish.host>localhost</aem.publish.host>
@@ -578,7 +580,7 @@
             <dependency>
                 <groupId>com.adobe.aem</groupId>
                 <artifactId>uber-jar</artifactId>
-                <version>V16168</version>
+                <version>${aem.cloud.version}</version>
                 <classifier>future</classifier>
                 <scope>provided</scope>
             </dependency>

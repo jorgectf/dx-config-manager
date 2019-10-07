@@ -74,3 +74,10 @@ buildNumber.properties
 ### IntelliJ ###
 .idea/
 *.iml
+
+### VS Code ###
+.vscode
+
+### Node ###
+node_modules
+

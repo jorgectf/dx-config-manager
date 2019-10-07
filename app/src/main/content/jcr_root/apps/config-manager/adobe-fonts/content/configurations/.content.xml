@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Adobe Fonts Configs"
+        sling:resourceType="granite/ui/components/shell/collectionpage"
+        contentPath="${requestPathInfo.suffix}"
+        currentView="${state[&quot;config-reactor.shell.collectionpage.layoutId&quot;].string}"
+        modeGroup="cq-confadmin-admin-childpages"
+        targetCollection=".cq-confadmin-admin-childpages">
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                categories="[cq.common.wcm,cq.conf.admin.typekit.create]"/>
+        </head>
+        <breadcrumbs
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="cq/cloudconfig/components/admin/datasources/breadcrumbs"
+            rootPath="/conf"
+            rootTitle="Adobe Fonts Configuration Browser"/>
+        <views jcr:primaryType="nt:unstructured">
+            <column
+                granite:rel="cq-confadmin-admin-childpages"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Column View"
+                sling:resourceType="granite/ui/components/coral/foundation/columnview"
+                icon="viewColumn"
+                limit="{Long}40"
+                loadAncestors="{Boolean}true"
+                metaResourceType="config-manager/adobe-fonts/components/meta"
+                modeGroup="cq-confadmin-admin-childpages"
+                path="${requestPathInfo.suffix}"
+                previewSrc="/apps/config-manager/adobe-fonts/content/configurations/jcr:content/views/columnpreview.html{+id}"
+                rootPath="/conf"
+                size="${empty requestPathInfo.selectors[1] ? &quot;40&quot; : requestPathInfo.selectors[1]}"
+                src="/apps/config-manager/adobe-fonts/content/configurations/jcr:content/views/column{.offset,limit}.html{+id}">
+                <granite:data
+                    jcr:primaryType="nt:unstructured"
+                    configType="adobe-fonts"
+                    createUrl="/apps/config-manager/adobe-fonts/content/wizard.html"
+                    allowedResourceTypes="config-manager/adobe-fonts/components/conf/page"/>
+                <datasource
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/cloudconfig/components/admin/datasources/configurations"
+                    itemResourceType="config-manager/adobe-fonts/components/column"
+                    limit="${empty requestPathInfo.selectors[1] ? &quot;41&quot; : requestPathInfo.selectors[1] + 1}"
+                    offset="${requestPathInfo.selectors[0]}"
+                    path="${requestPathInfo.suffix}"/>
+            </column>
+            <columnpreview
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="config-manager/adobe-fonts/components/columnpreview"/>
+        </views>
+        <actions jcr:primaryType="nt:unstructured">
+            <secondary jcr:primaryType="nt:unstructured">
+                <create
+                    granite:class="create-config"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    target=".cq-confadmin-admin-childpages"
+                    text="Create"
+                    variant="primary">
+                    <granite:rendercondition
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/renderconditions/privilege"
+                        path="/conf"
+                        privileges="[jcr:write]"/>
+                    <granite:data
+                        jcr:primaryType="nt:unstructured"
+                        configType="adobe-fonts"/>
+                </create>
+            </secondary>
+            <selection jcr:primaryType="nt:unstructured">
+                <edit
+                    granite:class="cq-confadmin-actions-properties-activator"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    action="foundation.link"
+                    activeSelectionCount="single"
+                    icon="edit"
+                    target=".cq-confadmin-admin-childpages"
+                    text="Edit"
+                    variant="actionBar">
+                    <granite:rendercondition
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/renderconditions/privilege"
+                        path="/conf"
+                        privileges="[jcr:write]"/>
+                    <data
+                        jcr:primaryType="nt:unstructured"
+                        href.uritemplate="/apps/config-manager/adobe-fonts/content/wizard.html{+item}"/>
+                </edit>
+                <delete
+                    granite:rel="cq-confadmin-actions-delete-activator"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    action="cq.wcm.delete"
+                    activeSelectionCount="multiple"
+                    icon="delete"
+                    target=".cq-confadmin-admin-childpages"
+                    text="Delete"
+                    variant="actionBar"/>
+                <publish
+                    granite:rel="cq-confadmin-actions-publish-activator"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    action="cq.wcm.publish"
+                    activeSelectionCount="multiple"
+                    icon="globe"
+                    target=".cq-confadmin-admin-childpages"
+                    text="Publish"
+                    variant="actionBar">
+                    <granite:rendercondition
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/renderconditions/privilege"
+                        path="/conf"
+                        privileges="[crx:replicate]"/>
+                    <granite:data
+                        jcr:primaryType="nt:unstructured"
+                        foundation-mode-group="cq-confadmin-admin-childpages"
+                        foundation-mode-value="default"/>
+                    <data
+                        jcr:primaryType="nt:unstructured"
+                        referenceSrc.url="/libs/wcm/core/content/reference.json?_charset_=utf-8{&amp;path*}"
+                        wizardSrc.uritemplate="/mnt/overlay/wcm/core/content/sites/publishpagewizard.html?_charset_=utf-8{&amp;item*}"/>
+                </publish>
+                <unpublish
+                    granite:class="foundation-collection-action"
+                    granite:rel="cq-confadmin-actions-unpublish-activator"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    action="cq.wcm.unpublish"
+                    icon="globeStrike"
+                    target=".cq-confadmin-admin-childpages"
+                    text="Unpublish"
+                    variant="actionBar">
+                    <data
+                        jcr:primaryType="nt:unstructured"
+                        referenceSrc.url="/bin/wcm/references.json?_charset_=utf-8{&amp;path*}"/>
+                </unpublish>
+            </selection>
+        </actions>
+    </jcr:content>
+</jcr:root>
