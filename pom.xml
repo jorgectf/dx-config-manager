@@ -108,6 +108,12 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <!-- Apache Rat Plugin -->
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+                <version>0.13</version>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -242,11 +248,6 @@
                         <userId>${vault.user}</userId>
                         <password>${vault.password}</password>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>biz.aQute.bnd</groupId>
-                    <artifactId>bnd-maven-plugin</artifactId>
-                    <version>${bnd.version}</version>
                 </plugin>
                 <!-- Maven Enforcer Plugin -->
                 <plugin>
