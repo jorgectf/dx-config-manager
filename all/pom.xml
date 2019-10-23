@@ -44,12 +44,12 @@
                 <extensions>true</extensions>
                 <configuration>
                     <showImportPackageReport>false</showImportPackageReport>
-                    <embeddedTarget>/apps/config-manager/install</embeddedTarget>
+                    <embeddedTarget>/apps/dx/config-manager/install</embeddedTarget>
                     <embeddeds>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>dx.configmanager.core</artifactId>
-                            <target>/apps/config-manager/install</target>
+                            <target>/apps/dx/config-manager/install</target>
                         </embedded>
                     </embeddeds>
                     <subPackages>

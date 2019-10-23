@@ -15,8 +15,9 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <workspaceFilter version="1.0">
-    <filter root="/apps/config-manager">
-      <exclude pattern="/apps/config-manager/install"/>
+    <filter root="/apps/dx" mode="update">
+      <exclude pattern="/apps/dx/config-manager/install"/>
     </filter>
+    <filter root="/apps/dx/config-manager" mode="update"/>
     <filter root="/apps/cq" mode="update"/>
 </workspaceFilter>
