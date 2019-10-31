@@ -36,11 +36,20 @@
 
     &.dx-ActionBar--secondary {
         border-bottom: 1px solid #E1E1E1;
+
     }
 
     .dx-ActionBar-Provider {
         display: flex;
         justify-content: space-between;
+
+        &.dx-ActionBar-Provider--alignEnd {
+            justify-content: flex-end;
+        }
+    }
+
+    .dx-MenuWrapper {
+        z-index: 1;
     }
 }
 
@@ -60,3 +69,12 @@
     }
 }
 
+.spectrum-Underlay.is-open {
+    pointer-events: all;
+    visibility: visible;
+    opacity: 1;
+}
+
+.spectrum-Popover {
+    min-width: 150px;
+}

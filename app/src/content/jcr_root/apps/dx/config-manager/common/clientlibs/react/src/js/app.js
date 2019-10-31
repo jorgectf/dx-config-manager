@@ -17,6 +17,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ConfigManager from './ConfigManager';
+import AdobeFontsConfig from './AdobeFontsConfig';
+
+window.dx = {
+    configManager: {
+        configs: {
+            'adobe-fonts': {
+                label: 'Adobe Fonts',
+                app: AdobeFontsConfig
+            },
+            'adobe-launch': {
+                label: 'Adobe Launch',
+                app: AdobeFontsConfig
+            },
+            'adobe-commerce': {
+                label: 'Adobe Commerce',
+                app: AdobeFontsConfig
+            }
+        }
+    }
+};
+
+// Consumer Code
+window.dx.configManager.configs['adobe-ims'] = {
+    label: 'Adobe IMS',
+    app: AdobeFontsConfig
+}
 
 const admin = document.getElementById('dx-ContentFrame');
 

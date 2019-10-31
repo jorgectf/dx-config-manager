@@ -18,13 +18,13 @@
     jcr:primaryType="nt:unstructured">
     <tools jcr:primaryType="nt:unstructured">
         <cloudservices jcr:primaryType="nt:unstructured">
-            <adobefonts
-                jcr:description="Adobe Fonts Configuration Console"
+            <configManager
+                jcr:description="Manage configurations"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Adobe Fonts Configurations"
-                href="/apps/dx/config-manager/adobe-fonts/content/configurations.html/conf"
-                icon="text"
-                id="adobe-fonts-configurations"/>
+                jcr:title="Config Manager"
+                href="/apps/dx/config-manager.html"
+                icon="settings"
+                id="dx-config-manager"/>
         </cloudservices>
     </tools>
 </jcr:root>

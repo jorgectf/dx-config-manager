@@ -1,109 +1,105 @@
 import React from 'react';
-import Provider from '@react/react-spectrum/Provider';
-import { ColumnViewDataSource, ColumnView } from '@react/react-spectrum/ColumnView';
 
+// Spectrum Components
+import Provider from '@react/react-spectrum/Provider';
+import { ColumnView } from '@react/react-spectrum/ColumnView';
 import ButtonGroup from '@react/react-spectrum/ButtonGroup';
 import Button from '@react/react-spectrum/Button';
-import CheckmarkCircle from '@react/react-spectrum/Icon/CheckmarkCircle';
-import Folder from '@react/react-spectrum/Icon/Folder';
-import Settings from '@react/react-spectrum/Icon/Settings';
-import Add from '@react/react-spectrum/Icon/Add';
+
+// Spectrum Icons
+import Edit from '@react/react-spectrum/Icon/Edit';
 import Close from '@react/react-spectrum/Icon/Close';
+import Delete from '@react/react-spectrum/Icon/Delete';
 
-class ExampleDS extends ColumnViewDataSource {
-    constructor(dataSourcePath) {
-        super();
-        console.log(dataSourcePath);
-        this.dataSourcePath = dataSourcePath;
-    }
-
-  async getChildren(item) {
-    if (!item) {
-      return this.getTree();
-    }
-
-    return item.children;
-  }
-
-  hasChildren(item) {
-    return !!item.children;
-  }
-
-  isItemEqual(a, b) {
-    return a.label === b.label;
-  }
-
-  async getTree() {
-    const raw = await (await (
-        fetch(`${this.dataSourcePath}.model.json`).then(res => {
-            return res.json();
-        }).catch(err => {
-            console.log('Error: ', err);
-        })
-    ));
-    return raw.items;
-  }
-}
-
-function renderItem(item) {
-    let iconType = <Settings className="dx-Icon dx-Icon--ColumnItem"/>;
-    if (item.iconType === 'folder') {
-        iconType = <Folder className="dx-Icon dx-Icon--ColumnItem"/>;
-    }
-    return (
-        <React.Fragment>
-            {iconType}
-            <span className="dx-ColumnItemLabel">{item.label}</span>
-        </React.Fragment>
-    );
-}
-
-function renderDetail(item) {
-  return (
-    <div>
-      <h4>Detail</h4>
-      <div>{item.label}</div>
-    </div>
-  );
-}
+// Custom Components
+import columnItem from './columnItem';
+import ConfigDataSource from './DataSource';
+import FolderDialog from './FolderDialog';
+import ConfigDialog from './ConfigDialog';
+import ConfirmDialog from './ConfirmDialog';
+import CreateMenu from './CreateMenu';
+import deleteResource from './utils/delete';
 
 export default class ConfigManager extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showPrimary: false,
-            dataSource: new ExampleDS(props.dataSourcePath),
+            dataSource: new ConfigDataSource(props.dataSourcePath),
+            showFixedActionBar: false,
+            showDialog: '',
+            dialogContent: {}
         };
+        this.dialogClose = this.dialogClose.bind(this);
     }
 
     togglePrimary = () => {
-        const primaryState = this.state.showPrimary ? false : true;
-        this.setState({ showPrimary: primaryState });
+        const primaryState = this.state.showFixedActionBar ? false : true;
+        this.setState({ showFixedActionBar: primaryState });
+    }
+
+    primaryChange = (value) => {
+        if (value === 'delete') {
+            this.deleteItem();
+        }
+    }
+
+    async deleteItem() {
+        const dialogContent = {
+            title: 'Delete', 
+            variant: 'destructive',
+            confirmLabel: 'Delete'
+        };
+        this.setState({ dialogContent, showDialog: 'delete' });
     }
 
     selectionChange = (items) => {
         const primaryState = items.length === 0 ? false : true;
-        this.setState({ showPrimary: primaryState });
+        this.setState({ showFixedActionBar: primaryState });
     }
 
     navigate = (items) => {
-        console.log(items);
-        console.log('do navigate');
+        this.setState({ selectedItems: items });
+        this.setState({ selectedItem: items[items.length - 1] });
+    }
+
+    create = (type, config) => {
+        this.setState({ showDialog: type });
+        if (config) {
+            this.setState({ dialogContent: config });
+        }
+    }
+
+    resetData = () => {
+        this.setState({ dataSource : new ConfigDataSource(this.props.dataSourcePath) });
+    }
+
+    async dialogClose(resetData) {
+        if (resetData) {
+            this.resetData();
+        }
+        this.setState({ showDialog: '' });
+    }
+
+    configDialogClose(resetData) {
+        if (resetData) {
+            this.resetData();
+        }
+        this.setState({ showDialog: '' });
     }
 
     render() {
-        let className = 'dx-ActionBar dx-ActionBar--fixed';
-        if (this.state.showPrimary) {
-            className += ' is-Active';
+        let showFixedActionBar = 'dx-ActionBar dx-ActionBar--fixed';
+        if (this.state.showFixedActionBar) {
+            showFixedActionBar += ' is-Active';
         }
 
         return (
             <React.Fragment>
-                <div className={className}>
+                <div className={showFixedActionBar}>
                     <Provider theme="lightest" className="dx-ActionBar-Provider">
-                        <ButtonGroup aria-label="PrimaryButtons">
-                            <Button label="React" value="react" icon={<CheckmarkCircle />} />
-                            <Button label="Add" value="add" icon={<Add />} />
+                        <ButtonGroup aria-label="PrimaryButtons"  onChange={this.primaryChange}>
+                            <Button label="Edit" value="edit" icon={<Edit />} />
+                            <Button label="Delete" value="delete" icon={<Delete />} />
                         </ButtonGroup>
                         <ButtonGroup aria-label="SecondaryButtons" onChange={this.togglePrimary}>
                             <Button label="Close" value="close" icon={<Close />}
@@ -111,19 +107,30 @@ export default class ConfigManager extends React.Component {
                         </ButtonGroup>
                     </Provider>
                 </div>
-                <div className="dx-ActionBar dx-ActionBar--secondary">
-                    <Provider theme="light">
-                        <Button label="Create" variant="cta" onClick={this.togglePrimary} />
-                    </Provider>
-                </div>
+                <CreateMenu onSelect={this.create} />
                 <Provider theme="light" className="dx-Provider--ColumnView">
                     <ColumnView
                         dataSource={this.state.dataSource}
-                        renderItem={renderItem}
+                        renderItem={columnItem}
                         onNavigate={this.navigate}
                         allowsSelection
+                        navigatedPath={this.state.selectedItems}
                         onSelectionChange={this.selectionChange} />
                 </Provider>
+                <FolderDialog 
+                    open={this.state.showDialog === 'folder'}
+                    onDialogClose={this.dialogClose}
+                    action={this.state.selectedItem ? this.state.selectedItem.path : ''} />
+                <ConfigDialog
+                    onDialogClose={this.dialogClose}
+                    action={this.state.selectedItem ? this.state.selectedItem.path : ''}
+                    dialogContent={this.state.dialogContent}
+                    open={this.state.showDialog === 'config'} />
+                <ConfirmDialog
+                    onDialogClose={this.dialogClose}
+                    open={this.state.showDialog === 'delete'}
+                    dialogContent={this.state.dialogContent}
+                    action={this.state.selectedItem ? this.state.selectedItem.path : ''} />
             </React.Fragment>
         );
     }

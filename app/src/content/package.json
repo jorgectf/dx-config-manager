@@ -16,6 +16,7 @@
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
+    "@babel/runtime-corejs3": "^7.6.3",
     "aemsync": "^4.0.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
@@ -31,7 +32,8 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
-    "@react/react-spectrum": "^2.20.0",
-    "@adobe/spectrum-css": "2.9.0"
+    "@adobe/spectrum-css": "2.9.0",
+    "@babel/runtime": "^7.6.3",
+    "@react/react-spectrum": "^2.20.0"
   }
 }
