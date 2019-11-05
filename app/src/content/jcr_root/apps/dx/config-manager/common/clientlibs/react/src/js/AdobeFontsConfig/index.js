@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Form, FormItem} from '@react/react-spectrum/Form';
+import { Form, FormItem } from '@react/react-spectrum/Form';
 import Textfield from '@react/react-spectrum/Textfield';
 import Select from '@react/react-spectrum/Select';
 
@@ -13,24 +13,32 @@ const EMBED_OPTIONS = [
 export default class AdobeFonts extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: 'adobe-fonts',
-            data: {
-                'jcr:primaryType': 'cq:Page',
-                'jcr:content': {
-                    'jcr:primaryType': 'nt:unstructured',
-                    'sling:resourceType': 'dx/config-manager/adobe-fonts',
-                    'jcr:title': 'Adobe Fonts',
-                    'projectId': '',
-                    'embedType': 'linkTag'
-                }
-            }
-        };
+        this.setupState();
         this.setConfig();
     }
 
+    setupState() {
+        if (this.props.config) {
+            this.state = this.props.config;
+        } else {
+            this.state = {
+                name: 'adobe-fonts',
+                data: {
+                    'jcr:primaryType': 'cq:Page',
+                    'jcr:content': {
+                        'jcr:primaryType': 'nt:unstructured',
+                        'sling:resourceType': 'dx/config-manager/adobe-fonts',
+                        'jcr:title': 'Adobe Fonts',
+                        'projectId': '',
+                        'embedType': 'linkTag'
+                    }
+                },
+                replace: true
+            };
+        }
+    }
+
     setConfig = () => {
-        console.log(this.state);
         this.props.setConfig(this.state);
     }
 
@@ -38,7 +46,7 @@ export default class AdobeFonts extends React.Component {
         this.setState({ name: value }, this.setConfig);
     }
 
-    onContentChange = (value, name) => {
+    onContentChange = (value, e) => {
         const data = this.state.data;
         data['jcr:content'][e.target.name] = value;
         this.setState({ data }, this.setConfig);

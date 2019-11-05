@@ -23,11 +23,11 @@ export default class CreateMenu extends React.Component {
         });
     }
 
-    create = (item) => {
-        if (item === 'folder') {
+    create = (key) => {
+        if (key === 'folder') {
             this.props.onSelect('folder');
         } else {
-            this.props.onSelect('config', this.thirdParty[item]);
+            this.props.onSelect('config', key);
         }
     }
 
@@ -37,9 +37,7 @@ export default class CreateMenu extends React.Component {
                 <Provider theme="light" className="dx-ActionBar-Provider dx-ActionBar-Provider--alignEnd">
                     <Dropdown onSelect={this.create}>
                         <Button label="Create" variant="cta" />
-                        <Menu>
-                            {this.menuItems}
-                        </Menu>
+                        <Menu>{this.menuItems}</Menu>
                     </Dropdown>
                 </Provider>
             </div>

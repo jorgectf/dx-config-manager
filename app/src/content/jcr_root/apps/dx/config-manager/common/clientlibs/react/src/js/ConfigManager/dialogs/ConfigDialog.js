@@ -1,15 +1,13 @@
 import React from 'react';
 
-import getCsrf from './utils/csrf';
+import getCsrf from '../utils/csrf';
 
-import Provider from '@react/react-spectrum/Provider';
 import Dialog from '@react/react-spectrum/Dialog';
-import Underlay from './Underlay';
 
 export default class ConfigDialog extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { config: {} };
+        this.state = { view: window.dx.configManager.configs[this.props.configKey] };
         this.dialogConfirm = this.dialogConfirm.bind(this);
     }
 
@@ -18,11 +16,14 @@ export default class ConfigDialog extends React.Component {
         formData.append(':operation', 'import');
         formData.append(':contentType', 'json');
         formData.append(':name', this.state.config.name);
+        if (this.state.config.replace) {
+            formData.append(':replace', this.state.config.replace);
+        }
         formData.append(':content', JSON.stringify(this.state.config.data));
 
         const csrf = await getCsrf();
 
-        await fetch(`${this.props.action}/`, {
+        await fetch(`${this.props.item.path}/`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: { 'CSRF-Token': csrf.token },
@@ -39,29 +40,26 @@ export default class ConfigDialog extends React.Component {
         this.setState({ config });
     }
 
-    empty = () => {
-        return <span></span>;
+    getConfig = () => {
+        if (this.state.view.app) {
+            return this.state.view.app;
+        }
+        return null;
     }
 
     render() {
-        let Config = this.empty;
-        if (this.props.dialogContent.app) {
-            Config = this.props.dialogContent.app;
-        }
+        const Config = this.getConfig();
         return (
-            <Provider theme="light">
-                <Underlay open={this.props.open} />
-                <Dialog
-                    open={this.props.open}
-                    onConfirm={this.dialogConfirm}
-                    onCancel={this.dialogCancel}
-                    title={this.props.dialogContent.label}
-                    mode="fullscreen"
-                    confirmLabel="Create"
-                    cancelLabel="Cancel">
-                    <Config setConfig={this.onChange} config={this.state.config} />
-                </Dialog>
-            </Provider>
+            <Dialog
+                open={this.props.open}
+                onConfirm={this.dialogConfirm}
+                onCancel={this.dialogCancel}
+                title={this.state.view.label}
+                mode="fullscreen"
+                confirmLabel="Create"
+                cancelLabel="Cancel">
+                <Config setConfig={this.onChange} config={this.state.config} />
+            </Dialog>
         );
     }
 }

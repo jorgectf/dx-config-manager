@@ -3,135 +3,94 @@ import React from 'react';
 // Spectrum Components
 import Provider from '@react/react-spectrum/Provider';
 import { ColumnView } from '@react/react-spectrum/ColumnView';
-import ButtonGroup from '@react/react-spectrum/ButtonGroup';
-import Button from '@react/react-spectrum/Button';
-
-// Spectrum Icons
-import Edit from '@react/react-spectrum/Icon/Edit';
-import Close from '@react/react-spectrum/Icon/Close';
-import Delete from '@react/react-spectrum/Icon/Delete';
 
 // Custom Components
-import columnItem from './columnItem';
-import ConfigDataSource from './DataSource';
-import FolderDialog from './FolderDialog';
-import ConfigDialog from './ConfigDialog';
-import ConfirmDialog from './ConfirmDialog';
-import CreateMenu from './CreateMenu';
-import deleteResource from './utils/delete';
+import ConfigDataSource from './data/DataSource';
+import columnItem from './data/columnItem';
+import CreateMenu from './menus/CreateMenu';
+import ActionMenu from './menus/ActionMenu';
+import Dialog from './dialogs/Dialog';
 
 export default class ConfigManager extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: new ConfigDataSource(props.dataSourcePath),
-            showFixedActionBar: false,
-            showDialog: '',
-            dialogContent: {}
+            dataSource : new ConfigDataSource(props.dataSourcePath),
+            fixedActionBar: { show: false },
+            selectedItem: { path: '/conf' }
         };
-        this.dialogClose = this.dialogClose.bind(this);
+        this.closeDialog = this.closeDialog.bind(this);
     }
 
-    togglePrimary = () => {
-        const primaryState = this.state.showFixedActionBar ? false : true;
-        this.setState({ showFixedActionBar: primaryState });
-    }
-
-    primaryChange = (value) => {
-        if (value === 'delete') {
-            this.deleteItem();
+    toggleActionBar = () => {
+        const fixedActionBar = this.state.fixedActionBar;
+        fixedActionBar.show = fixedActionBar.show ? false : true;
+        // Reset button states
+        if (!fixedActionBar.show) {
+            fixedActionBar.primary = '';
+            fixedActionBar.secondary = '';
         }
-    }
-
-    async deleteItem() {
-        const dialogContent = {
-            title: 'Delete', 
-            variant: 'destructive',
-            confirmLabel: 'Delete'
-        };
-        this.setState({ dialogContent, showDialog: 'delete' });
+        this.setState({ fixedActionBar });
     }
 
     selectionChange = (items) => {
-        const primaryState = items.length === 0 ? false : true;
-        this.setState({ showFixedActionBar: primaryState });
+        const fixedActionBar = this.state.fixedActionBar;
+        fixedActionBar.show = items.length === 0 ? false : true;
+        this.setState({ fixedActionBar });
     }
 
     navigate = (items) => {
-        this.setState({ selectedItems: items });
-        this.setState({ selectedItem: items[items.length - 1] });
-    }
-
-    create = (type, config) => {
-        this.setState({ showDialog: type });
-        if (config) {
-            this.setState({ dialogContent: config });
+        console.log('navigated');
+        if (items.length > 0) {
+            this.setState({ selectedItems: items });
+            this.setState({ selectedItem: items[items.length - 1] });
         }
     }
 
-    resetData = () => {
+    openDialog = (type, configKey) => {
+        this.setState({ dialogType: type });
+        this.setState({ configKey });
+    }
+
+    async closeDialog(resetData, closeActionBar) {
+        if (resetData) {
+            this.setData();
+        }
+        if (closeActionBar) {
+            this.toggleActionBar();
+        }
+        this.setState({ dialogType: undefined });
+    }
+
+    setData = () => {
         this.setState({ dataSource : new ConfigDataSource(this.props.dataSourcePath) });
     }
 
-    async dialogClose(resetData) {
-        if (resetData) {
-            this.resetData();
-        }
-        this.setState({ showDialog: '' });
-    }
-
-    configDialogClose(resetData) {
-        if (resetData) {
-            this.resetData();
-        }
-        this.setState({ showDialog: '' });
-    }
-
     render() {
-        let showFixedActionBar = 'dx-ActionBar dx-ActionBar--fixed';
-        if (this.state.showFixedActionBar) {
-            showFixedActionBar += ' is-Active';
-        }
+        console.log('rendering');
 
-        return (
-            <React.Fragment>
-                <div className={showFixedActionBar}>
-                    <Provider theme="lightest" className="dx-ActionBar-Provider">
-                        <ButtonGroup aria-label="PrimaryButtons"  onChange={this.primaryChange}>
-                            <Button label="Edit" value="edit" icon={<Edit />} />
-                            <Button label="Delete" value="delete" icon={<Delete />} />
-                        </ButtonGroup>
-                        <ButtonGroup aria-label="SecondaryButtons" onChange={this.togglePrimary}>
-                            <Button label="Close" value="close" icon={<Close />}
-                                    className="spectrum-ActionButton--alignLeft" />
-                        </ButtonGroup>
-                    </Provider>
-                </div>
-                <CreateMenu onSelect={this.create} />
-                <Provider theme="light" className="dx-Provider--ColumnView">
-                    <ColumnView
-                        dataSource={this.state.dataSource}
-                        renderItem={columnItem}
-                        onNavigate={this.navigate}
-                        allowsSelection
-                        navigatedPath={this.state.selectedItems}
-                        onSelectionChange={this.selectionChange} />
-                </Provider>
-                <FolderDialog 
-                    open={this.state.showDialog === 'folder'}
-                    onDialogClose={this.dialogClose}
-                    action={this.state.selectedItem ? this.state.selectedItem.path : ''} />
-                <ConfigDialog
-                    onDialogClose={this.dialogClose}
-                    action={this.state.selectedItem ? this.state.selectedItem.path : ''}
-                    dialogContent={this.state.dialogContent}
-                    open={this.state.showDialog === 'config'} />
-                <ConfirmDialog
-                    onDialogClose={this.dialogClose}
-                    open={this.state.showDialog === 'delete'}
-                    dialogContent={this.state.dialogContent}
-                    action={this.state.selectedItem ? this.state.selectedItem.path : ''} />
-            </React.Fragment>
-        );
+        return (<>
+            <ActionMenu
+                fixedActionBar={this.state.fixedActionBar}
+                openDialog={this.openDialog}
+                toggleActionBar={this.toggleActionBar} />
+            <CreateMenu
+                onSelect={this.openDialog} />
+            <Provider theme="light" className="dx-Provider--ColumnView">
+                <ColumnView
+                    renderItem={columnItem}
+                    dataSource={this.state.dataSource}
+                    navigatedPath={this.state.selectedItems}
+                    onSelectionChange={this.selectionChange}
+                    onNavigate={this.navigate}
+                    allowsSelection />
+            </Provider>
+            <Dialog
+                open={this.state.dialogType !== undefined}
+                dialogType={this.state.dialogType}
+                onDialogClose={this.closeDialog}
+                configKey={this.state.configKey}
+                item={this.state.selectedItem} />
+        </>);
     }
 }

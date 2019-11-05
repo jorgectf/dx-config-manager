@@ -1,11 +1,9 @@
 import React from 'react';
 
-import getCsrf from './utils/csrf';
+import getCsrf from '../utils/csrf';
 
-import Provider from '@react/react-spectrum/Provider';
 import Dialog from '@react/react-spectrum/Dialog';
 import CreateFolder from './CreateFolder';
-import Underlay from './Underlay';
 
 export default class CreateFolderDialog extends React.Component {
     constructor(props) {
@@ -20,12 +18,16 @@ export default class CreateFolderDialog extends React.Component {
     async dialogConfirm() {
         const formData = new FormData();
         formData.append(':name', this.state.name);
-        formData.append('jcr:title', this.state.title);
+
+        if (this.state.title) {
+            formData.append('jcr:title', this.state.title);
+        }
+
         if (this.state.orderable) {
             formData.append('jcr:primaryType', 'sling:OrderedFolder');
         }
         const csrf = await getCsrf();
-        await fetch(`${this.props.action}/`, {
+        await fetch(`${this.props.item.path}/`, {
             method: 'POST', 
             credentials: 'same-origin',
             headers: { 'CSRF-Token': csrf.token },
@@ -44,21 +46,18 @@ export default class CreateFolderDialog extends React.Component {
     
     render() {
         return (
-            <Provider theme="light">
-                <Underlay open={this.props.open} />
-                <Dialog
-                    open={this.props.open}
-                    onConfirm={this.dialogConfirm}
-                    onCancel={this.dialogCancel}
-                    cancelLabel="Cancel"
-                    confirmLabel="Create"
-                    title="Create folder">
-                    <CreateFolder
-                        name={this.state.name}
-                        title={this.state.title}
-                        action={this.props.action}
-                        onChange={this.handleFolderChange} />
-                </Dialog>
-            </Provider>);
+            <Dialog
+                open={this.props.open}
+                onConfirm={this.dialogConfirm}
+                onCancel={this.dialogCancel}
+                cancelLabel="Cancel"
+                confirmLabel="Create"
+                title="Create folder">
+                <CreateFolder
+                    name={this.state.name}
+                    title={this.state.title}
+                    onChange={this.handleFolderChange} />
+            </Dialog>
+        );
     }
 }
