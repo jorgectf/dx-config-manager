@@ -7,24 +7,22 @@ import ConfigDialog from './ConfigDialog';
 import DeleteDialog from './DeleteDialog';
 
 const Dialog = (props) => {
-    const onDialogClose = (resetData, closeActionBar) => {
-        props.onDialogClose(resetData, closeActionBar);
-    };
+    console.log('build dialog');
 
     const empty = () => {
         return null;
     };
 
-    console.log(props.item ? props.item.path : '');
-
     const DialogType = props.dialogType === 'folder' ? FolderDialog
-                         : props.dialogType === 'delete' ? DeleteDialog
-                         : props.dialogType === 'config' ? ConfigDialog
-                         : empty;
+                     : props.dialogType === 'delete' ? DeleteDialog
+                     : props.dialogType === 'config' ? ConfigDialog
+                     : props.dialogType === 'edit' ? ConfigDialog
+                     : empty;
+
     return (
         <Provider theme="light">
             <Underlay open={props.open} />
-            <DialogType onDialogClose={onDialogClose} {...props} />
+            <DialogType {...props} />
         </Provider>
     );
 }

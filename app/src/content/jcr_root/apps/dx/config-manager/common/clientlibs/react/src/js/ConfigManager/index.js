@@ -40,7 +40,6 @@ export default class ConfigManager extends React.Component {
     }
 
     navigate = (items) => {
-        console.log('navigated');
         if (items.length > 0) {
             this.setState({ selectedItems: items });
             this.setState({ selectedItem: items[items.length - 1] });
@@ -49,7 +48,9 @@ export default class ConfigManager extends React.Component {
 
     openDialog = (type, configKey) => {
         this.setState({ dialogType: type });
-        this.setState({ configKey });
+        if (configKey) {
+            this.setState({ configKey });
+        }
     }
 
     async closeDialog(resetData, closeActionBar) {
@@ -59,6 +60,7 @@ export default class ConfigManager extends React.Component {
         if (closeActionBar) {
             this.toggleActionBar();
         }
+        this.setState({ configKey: undefined });
         this.setState({ dialogType: undefined });
     }
 
@@ -67,8 +69,6 @@ export default class ConfigManager extends React.Component {
     }
 
     render() {
-        console.log('rendering');
-
         return (<>
             <ActionMenu
                 fixedActionBar={this.state.fixedActionBar}

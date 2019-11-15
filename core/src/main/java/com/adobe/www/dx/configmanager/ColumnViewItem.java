@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import com.day.cq.wcm.api.Page;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
@@ -23,7 +27,31 @@ public class ColumnViewItem {
     @ValueMapValue(name = "jcr:primaryType")
     private String primaryType;
 
+    @ValueMapValue(name = "jcr:title")
+    private String title;
+
+    private Page page;
+
+    @PostConstruct
+    private void init() {
+        page = resource.adaptTo(Page.class);
+    }
+
+    public boolean getIsPage() {
+        return page != null;
+    }
+
     public String getLabel() {
+        if (page != null && page.getTitle() != null) {
+            return page.getTitle();
+        }
+        if (title != null) {
+            return title;
+        }
+        return resource.getName();
+    }
+
+    public String getName() {
         return resource.getName();
     }
 

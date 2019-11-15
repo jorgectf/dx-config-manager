@@ -4,6 +4,7 @@ import Textfield from '@react/react-spectrum/Textfield';
 import Checkbox from '@react/react-spectrum/Checkbox';
 
 const CreateFolder = (props) => {
+    console.log('re-rendering folder');
 
     const handleChange = (value, e) => {
         const change = {};

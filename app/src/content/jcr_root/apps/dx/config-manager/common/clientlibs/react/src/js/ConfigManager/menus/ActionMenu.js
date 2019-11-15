@@ -21,7 +21,7 @@ const actionMenu = (props) => {
                 <ButtonGroup
                     value={props.fixedActionBar.primary}
                     aria-label="PrimaryButtons"
-                    onChange={props.openDialog}>
+                    onChange={(value) => props.openDialog(value, undefined)}>
                     <Button label="Edit" value="edit" icon={<Edit />} />
                     <Button label="Delete" value="delete" icon={<Delete />} />
                 </ButtonGroup>

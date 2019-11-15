@@ -27,8 +27,8 @@ window.dx.configManager.configs['adobe-fonts'] = {
     app: AdobeFontsConfig
 }
 
-window.dx.configManager.configs['adobe-ims'] = {
-    label: 'Adobe IMS',
+window.dx.configManager.configs['adobe-launch'] = {
+    label: 'Adobe Launch',
     app: AdobeFontsConfig
 }
 
