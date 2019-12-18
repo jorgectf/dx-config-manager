@@ -1,7 +1,7 @@
-package com.adobe.www.dx.configmanager;
+package com.adobe.dx.admin.config.manager;
 
-import static com.adobe.www.dx.configmanager.Constants.BAD_LIST;
-import static com.adobe.www.dx.configmanager.Constants.FOLDER_TYPES;
+import static com.adobe.dx.admin.config.manager.Constants.BAD_LIST;
+import static com.adobe.dx.admin.config.manager.Constants.FOLDER_TYPES;
 
 import java.util.ArrayList;
 import java.util.Arrays;

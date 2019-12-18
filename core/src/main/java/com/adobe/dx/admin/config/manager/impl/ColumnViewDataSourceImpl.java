@@ -1,12 +1,12 @@
-package com.adobe.www.dx.configmanager.impl;
+package com.adobe.dx.admin.config.manager.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.adobe.www.dx.configmanager.ColumnViewDataSource;
-import com.adobe.www.dx.configmanager.ColumnViewItem;
-import static com.adobe.www.dx.configmanager.Constants.BAD_LIST;
+import com.adobe.dx.admin.config.manager.ColumnViewDataSource;
+import com.adobe.dx.admin.config.manager.ColumnViewItem;
+import static com.adobe.dx.admin.config.manager.Constants.BAD_LIST;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;

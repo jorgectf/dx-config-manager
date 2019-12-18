@@ -18,6 +18,6 @@
     <filter root="/apps/dx" mode="update">
       <exclude pattern="/apps/dx/config-manager/install"/>
     </filter>
-    <filter root="/apps/dx/config-manager" mode="update"/>
+    <filter root="/apps/dx/config-manager"/>
     <filter root="/apps/cq" mode="update"/>
 </workspaceFilter>

@@ -21,7 +21,7 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>com.adobe.www</groupId>
+        <groupId>com.adobe.dx</groupId>
         <artifactId>reactor</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -30,7 +30,7 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>dx.configmanager.app</artifactId>
+    <artifactId>admin.configmanager.app</artifactId>
     <packaging>content-package</packaging>
     <name>Dx Config Manager - UI</name>
     <description>UI apps package for cloud</description>
@@ -83,19 +83,9 @@
     <!-- ====================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>com.adobe.www</groupId>
-            <artifactId>dx.configmanager.core</artifactId>
+            <groupId>com.adobe.dx</groupId>
+            <artifactId>admin.configmanager.core</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>core.wcm.components.all</artifactId>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.cq</groupId>
-            <artifactId>core.wcm.components.examples</artifactId>
-            <type>zip</type>
         </dependency>
         <dependency>
             <groupId>javax.jcr</groupId>

@@ -1,4 +1,4 @@
-package com.adobe.www.dx.configmanager;
+package com.adobe.dx.admin.config.manager;
 
 import java.util.List;
 

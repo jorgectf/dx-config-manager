@@ -13,13 +13,13 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.www.dx.fonts.impl;
+package com.adobe.dx.admin.config.fonts.impl;
 
 import java.util.Collections;
 import java.util.Map;
 
-import com.adobe.www.dx.fonts.Settings;
-import com.adobe.www.dx.fonts.SettingsProvider;
+import com.adobe.dx.admin.config.fonts.Settings;
+import com.adobe.dx.admin.config.fonts.SettingsProvider;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 
@@ -41,7 +41,9 @@ public class SettingsProviderImpl implements SettingsProvider {
 
     public static String CLOUDCONFIG_PARENT = "cloudconfigs";
 
-    static final String SERVICE_USER = "cloudconfig-scripttags";
+    static final String SERVICE_USER = "repository-reader-service";
+
+    static final String CONFIG_HEADER_SUFFIX = "/cloudconfig-header/cloudconfig-header";
 
     @Reference
     private ResourceResolverFactory resolverFactory;

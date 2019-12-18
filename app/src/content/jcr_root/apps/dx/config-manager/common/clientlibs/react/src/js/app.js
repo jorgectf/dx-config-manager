@@ -27,11 +27,6 @@ window.dx.configManager.configs['adobe-fonts'] = {
     app: AdobeFontsConfig
 }
 
-window.dx.configManager.configs['adobe-launch'] = {
-    label: 'Adobe Launch',
-    app: AdobeFontsConfig
-}
-
 const admin = document.getElementById('dx-ContentFrame');
 
 if (admin) {
@@ -40,3 +35,4 @@ if (admin) {
     };
     ReactDOM.render(<ConfigManager {...props} />, admin);
 }
+

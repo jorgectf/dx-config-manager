@@ -13,52 +13,51 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.www.dx.fonts.impl;
+package com.adobe.dx.admin.config.fonts.impl;
 
-import javax.annotation.PostConstruct;
+import com.adobe.dx.admin.config.fonts.Settings;
 
-import com.adobe.www.dx.fonts.Settings;
-import com.adobe.www.dx.fonts.SettingsProvider;
-import com.adobe.www.dx.fonts.Tag;
-
-import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
-@Model(adaptables = { SlingHttpServletRequest.class }, adapters = { Tag.class })
-public class TagImpl implements Tag {
-
-    private static final String configName = "adobe-fonts";
-
-    @Self
-    private SlingHttpServletRequest request;
-
-    @OSGiService
-    private SettingsProvider settingsProvider;
-
-    private Settings settings;
-
-    @PostConstruct
-    public void postConstruct() {
-        settings = settingsProvider.getSettings(request, configName);
+@Model(
+    adaptables = {
+        Resource.class
+    },
+    adapters = {
+        Settings.class
     }
+)
+public class SettingsImpl implements Settings {
+
+    private static final String BASE_URL = "https://use.typekit.net";
+
+    @Self(injectionStrategy = InjectionStrategy.REQUIRED)
+    private Resource resource;
+
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
+    private String projectId;
+
+    @ValueMapValue(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @Default(values = "linkTag")
+    private String embedType;
 
     @Override
     public String getId() {
-        if (settings != null) {
-            return settings.getId();
-        }
-        return null;
+        return projectId;
     }
 
     @Override
     public String getEmbedType() {
-        return settings.getEmbedType();
+        return embedType;
     }
 
     @Override
     public String getUrl() {
-        return settings.getUrl();
+        return BASE_URL;
     }
 }

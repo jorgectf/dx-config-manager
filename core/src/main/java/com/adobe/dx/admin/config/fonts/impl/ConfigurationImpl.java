@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.www.dx.admin.impl;
+package com.adobe.dx.admin.config.fonts.impl;
 
 import java.util.Calendar;
 import java.util.LinkedHashSet;
@@ -21,18 +21,20 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import com.adobe.www.dx.admin.Configuration;
+import com.adobe.dx.admin.config.fonts.Configuration;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.Page;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
-import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 @Model(
     adaptables = {
@@ -54,7 +56,8 @@ public class ConfigurationImpl implements Configuration {
     @SlingObject(injectionStrategy = InjectionStrategy.REQUIRED)
     private ResourceResolver resourceResolver;
 
-    @RequestAttribute(injectionStrategy = InjectionStrategy.OPTIONAL)
+    @ValueMapValue
+    @Default(values = StringUtils.EMPTY)
     private String configName;
 
     private Resource pageResource;

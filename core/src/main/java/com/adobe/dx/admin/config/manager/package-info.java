@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-@Version("1.0.0")
-package com.adobe.www.dx.fonts;
+@Version("1.1")
+package com.adobe.dx.admin.config.manager;
 
 import org.osgi.annotation.versioning.Version;

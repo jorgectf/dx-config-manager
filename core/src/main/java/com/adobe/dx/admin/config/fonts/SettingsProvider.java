@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-package com.adobe.www.dx.fonts;
+package com.adobe.dx.admin.config.fonts;
 
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;

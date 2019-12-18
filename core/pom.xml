@@ -18,12 +18,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.adobe.www</groupId>
+        <groupId>com.adobe.dx</groupId>
         <artifactId>reactor</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>dx.configmanager.core</artifactId>
+    <artifactId>admin.configmanager.core</artifactId>
     <name>Dx Config Manager - Core</name>
     <description>Core bundle for Dx Config Manager</description>
     <build>
@@ -43,10 +43,10 @@
                         </goals>
                         <configuration>
                             <bnd><![CDATA[
-Bundle-SymbolicName: com.adobe.www
+Bundle-SymbolicName: com.adobe.dx.admin.config
 Bundle-Category: web
 -exportcontents: ${packages;VERSIONED}
-Sling-Model-Packages: com.adobe.www
+Sling-Model-Packages: com.adobe.dx.admin.config
 -snapshot: ${tstamp;yyyyMMddHHmmssSSS}
 Bundle-DocURL:
                                 ]]></bnd>
