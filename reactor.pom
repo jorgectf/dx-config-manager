@@ -208,6 +208,7 @@
                     <version>1.0.3</version>
                     <configuration>
                         <filterSource>${project.basedir}/src/content/META-INF/vault/filter.xml</filterSource>
+                        <failOnDependencyErrors>false</failOnDependencyErrors>
                     </configuration>
                 </plugin>
                 <!-- Content Package Plugin -->

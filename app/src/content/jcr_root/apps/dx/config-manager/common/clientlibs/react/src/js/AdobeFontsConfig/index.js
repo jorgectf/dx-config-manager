@@ -16,7 +16,7 @@ const DEFAULT_STATE = {
             'projectId': '',
             'embedType': 'linkTag',
             'configKey': 'adobe-fonts',
-            'myValues': [ 'foo', 'bar', 'zaz']
+            'tagComponentHeader': 'dx/adobe-fonts/header'
         }
     },
     replace: true

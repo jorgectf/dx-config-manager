@@ -16,7 +16,7 @@
 
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const stats = require('./webpack.config/stats');
@@ -54,6 +54,10 @@ module.exports = {
             },
         ],
     },
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env.SCALE_MEDIUM': 'true',
@@ -63,7 +67,6 @@ module.exports = {
             'process.env.THEME_DARK': 'false',
             'process.env.THEME_DARKEST': 'false'
         }),
-        new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: true }),
         new MiniCssExtractPlugin({ filename: '[name]/dist/css/app.min.css' }),
         new OptimizeCSSAssetsPlugin({}),
     ],

@@ -27,6 +27,11 @@ window.dx.configManager.configs['adobe-fonts'] = {
     app: AdobeFontsConfig
 }
 
+window.dx.configManager.configs['globalnav-theme'] = {
+    label: 'GlobalNav Theme',
+    app: AdobeFontsConfig
+}
+
 const admin = document.getElementById('dx-ContentFrame');
 
 if (admin) {

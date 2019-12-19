@@ -50,15 +50,15 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>admin.configmanager.core</artifactId>
                             <target>/apps/dx/config-manager/install</target>
+                            <filter>true</filter>
                         </embedded>
-                    </embeddeds>
-                    <subPackages>
-                        <subPackage>
+                        <embedded>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>admin.configmanager.app</artifactId>
+                            <target>/apps/dx/config-manager-packages/install</target>
                             <filter>true</filter>
-                        </subPackage>
-                    </subPackages>
+                        </embedded>
+                    </embeddeds>
                 </configuration>
             </plugin>
             <plugin>
